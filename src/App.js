@@ -10,8 +10,6 @@ function App() {
   const getData = async() => {
     try{
       const data = await axios.get("https://jsonplaceholder.typicode.com/comments")
-
-      console.log("data",data.data)
       setComments(data.data)
     }catch(e){
       console.log(e)
@@ -22,13 +20,32 @@ function App() {
     getData()
   },[])
 
+  const arr = comments
+  .filter((item)=>{
+    if (search==""){
+      return item;
+    }else if(item.name.toLowerCase().includes(search.toLowerCase())){
+      return item;
+    }
+  })
+  .map((data, index)=>{
+    return(
+      <tr>
+      <td>{data.postId}</td>
+      <td>{data.id}</td>
+      <td>{data.name}</td>
+      <td>{data.email}</td>
+      <td>{data.body}</td>
+    </tr>
+    )
+  })
+
   return (
     <div className="App">
       <h1>Comments</h1>
         <input type="text" placeholder="Search" onChange={(e)=>{
           setSearch(e.target.value);
         }}/>
-        <div style="overflow-x:auto;">
           <table>
             <tr>
               <th>Post Id</th>
@@ -37,27 +54,8 @@ function App() {
               <th>Email</th>
               <th>Body</th>
             </tr>
-            {/* {comments
-            .filter((item)=>{
-              if (search==""){
-                return item;
-              }else if(item.name.toLowerCase().includes(search.toLowerCase())){
-                return item;
-              }
-            })
-            .map((item)=>{
-              return(
-                <tr key={item.id}>
-                  <td>{item.postId}</td>
-                  <td>{item.id}</td>
-                  <td>{item.name}</td>
-                  <td>{item.email}</td>
-                  <td>{item.body}</td>
-                </tr>
-              );
-            })} */}
-            </table>
-        </div>
+            {arr}
+          </table>
     </div>
   );
 }
