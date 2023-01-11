@@ -39,7 +39,6 @@ function App() {
     </tr>
     )
   })
-
   return (
     <div className="App">
       <h1>Comments</h1>
@@ -61,3 +60,4 @@ function App() {
 }
 
 export default App;
+
